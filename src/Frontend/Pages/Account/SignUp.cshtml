@@ -1,0 +1,59 @@
+﻿@page
+@model Frontend.Pages.Account.SignUpModel
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "_Layout";
+}
+
+<h1>Sign Up</h1>
+<form method="post" class="row g-3 col-md-6">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-12">
+        <label asp-for="FullName" class="form-label">Full Name</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+
+    <div class="col-6">
+        <label asp-for="DateJoined" class="form-label">Date Joined</label>
+        <input asp-for="DateJoined" type="date" class="form-control" />
+    </div>
+
+    <div class="col-6">
+        <label asp-for="TrainerId" class="form-label">Trainer</label>
+        <select asp-for="TrainerId" asp-items="Model.TrainerOptions" class="form-select">
+            <option value="">— select trainer —</option>
+        </select>
+    </div>
+
+    <div class="col-6">
+        <label asp-for="TrainingPlanId" class="form-label">Plan</label>
+        <select asp-for="TrainingPlanId" asp-items="Model.PlanOptions" class="form-select">
+            <option value="">— select plan —</option>
+        </select>
+    </div>
+
+    <div class="col-6">
+        <label asp-for="Username" class="form-label">Username</label>
+        <input asp-for="Username" class="form-control" />
+    </div>
+
+    <div class="col-6">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input asp-for="Password" type="password" class="form-control" />
+    </div>
+
+    <div class="col-6">
+        <label asp-for="Role" class="form-label">Role</label>
+        <input asp-for="Role" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <a asp-page="/Index" class="btn btn-secondary ms-2">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

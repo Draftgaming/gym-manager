@@ -1,0 +1,80 @@
+﻿@page
+@{
+    ViewData["Title"] = "Welcome to Gym-Manager";
+}
+
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <h1 class="display-4 fw-bold">Welcome to Gym-Manager</h1>
+            <p class="lead">
+                Streamline gym subscriptions, assign trainers, design custom training plans,
+                and track each trainee’s progress—all in one place.
+            </p>
+            <a asp-page="/Trainees/Create" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="~/images/btoteva-fitness.svg" alt="Gym illustration" class="img-fluid rounded shadow-sm" />
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="~/images/register-svgrepo-com.svg" class="card-img-top mx-auto mt-4" style="width:60px;" alt="Register Trainee">
+                <div class="card-body">
+                    <h5 class="card-title">Register Trainees</h5>
+                    <p class="card-text">
+                        Quickly add new members, capture their details, and get them set up with a membership in seconds.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="~/images/manager-svgrepo-com.svg" class="card-img-top mx-auto mt-4" style="width:60px;" alt="Assign Trainer">
+                <div class="card-body">
+                    <h5 class="card-title">Assign Trainers</h5>
+                    <p class="card-text">
+                        Match trainees with the right trainers based on expertise—strength, cardio, flexibility, and more.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="~/images/biceps-svgrepo-com.svg" class="card-img-top mx-auto mt-4" style="width:60px;" alt="Track Progress">
+                <div class="card-body">
+                    <h5 class="card-title">Track Progress</h5>
+                    <p class="card-text">
+                        Log weight, BMI, notes, and milestones over time to keep every trainee’s journey on target.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="~/images/gallery-filled-svgrepo-com.svg"
+                     class="card-img-top mx-auto mt-4"
+                     style="width:60px;"
+                     alt="Gallery">
+                <div class="card-body">
+                    <h5 class="card-title">Photo Gallery</h5>
+                    <p class="card-text">
+                        Browse our gym’s highlights—click to open full-screen slides.
+                    </p>
+                    <a asp-page="/Gallery" class="btn btn-outline-primary">
+                        View Gallery
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- any page-specific scripts can go here -->
+}

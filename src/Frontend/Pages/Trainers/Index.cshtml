@@ -1,0 +1,37 @@
+﻿@page
+@model Frontend.Pages.Trainers.IndexModel
+@{
+    ViewData["Title"] = "Trainers";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1 class="mb-4">Trainers</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-success">Add New Trainee</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Specialty</th>
+            <th>Number of Trainees</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var trainer in Model.Trainers)
+        {
+            <tr>
+                <td>@trainer.Name</td>
+                <td>@trainer.Specialty</td>
+                <td>@trainer.Trainees.Count</td>
+                <td class="text-end">
+                    <a asp-page="Edit" asp-route-id="@trainer.TrainerId" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-page="Delete" asp-route-id="@trainer.TrainerId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

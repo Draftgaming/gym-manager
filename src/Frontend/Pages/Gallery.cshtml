@@ -1,0 +1,68 @@
+﻿@page
+@model Frontend.Pages.GalleryModel
+@{
+    ViewData["Title"] = "Gallery";
+    Layout = "_Layout";
+}
+
+<div class="container py-5">
+    <h1 class="mb-4">Gym Photo Gallery</h1>
+    <div class="row">
+        @for (int i = 1; i <= 5; i++)
+        {
+            <div class="col-6 col-md-4 mb-4">
+                <a href="#"
+                   data-bs-toggle="modal"
+                   data-bs-target="#galleryModal"
+                   data-index="@i">
+                    <img src="@Url.Content($"~/images/gallery/gallery{i}.png")"
+                         class="img-fluid rounded shadow-sm"
+                         alt="Gallery image @i" />
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal Lightbox -->
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0 position-relative">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                <button id="prevBtn" class="btn btn-light position-absolute top-50 start-0 translate-middle-y ms-2">
+                    ‹
+                </button>
+                <img id="modalImage" src="" class="w-100 rounded" />
+                <button id="nextBtn" class="btn btn-light position-absolute top-50 end-0 translate-middle-y me-2">
+                    ›
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (() => {
+            let idx = 0;
+            // adjust path if your images live in wwwroot/images/gallery
+            const images = [1,2,3,4,5].map(i => `/images/gallery/gallery${i}.png`);
+            const modalImg = document.getElementById('modalImage');
+            const modalEl  = document.getElementById('galleryModal');
+
+            modalEl.addEventListener('show.bs.modal', e => {
+                idx = parseInt(e.relatedTarget.dataset.index, 10) - 1;
+                modalImg.src = images[idx];
+            });
+            document.getElementById('prevBtn').onclick = () => {
+                idx = (idx - 1 + images.length) % images.length;
+                modalImg.src = images[idx];
+            };
+            document.getElementById('nextBtn').onclick = () => {
+                idx = (idx + 1) % images.length;
+                modalImg.src = images[idx];
+            };
+        })();
+    </script>
+}

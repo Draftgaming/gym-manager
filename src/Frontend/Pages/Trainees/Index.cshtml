@@ -1,0 +1,41 @@
+﻿@page
+@model Frontend.Pages.Trainees.IndexModel
+@{
+    ViewData["Title"] = "Trainees";
+}
+
+<h1 class="mb-4">Trainees</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-success">Add New Trainee</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Date Joined</th>
+            <th>Trainer</th>
+            <th>Plan</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var trainee in Model.Trainees)
+        {
+            <tr>
+                <td>@trainee.FullName</td>
+                <td>@trainee.DateJoined.ToShortDateString()</td>
+                <td>@trainee.Trainer?.Name</td>
+                <td>@trainee.TrainingPlan?.PlanName</td>
+                <td class="text-end">
+                    @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+                    {
+                        <a asp-page="Edit" asp-route-id="@trainee.TraineeId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-page="Delete" asp-route-id="@trainee.TraineeId" class="btn btn-sm btn-danger">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
