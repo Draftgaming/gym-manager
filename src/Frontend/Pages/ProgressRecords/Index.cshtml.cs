@@ -17,19 +17,29 @@ namespace Frontend.Pages.ProgressRecords
 
         public async Task OnGetAsync()
         {
-            var progressRecords = await _http.GetFromJsonAsync<List<ProgressRecord>>("api/progressrecords") ?? [];
+            var currentUser = User.Identity? .Name;
+            var isAdmin = User.IsInRole("Administrator");
 
-            foreach (var record in progressRecords)
+            // Fetch all records if Admin
+            var allRecords = await _http.GetFromJsonAsync<List<ProgressRecord>>("api/progressrecords") ?? new();
+
+            var filteredRecords = new List<ProgressRecord>();
+
+            foreach (var record in allRecords)
             {
-                // Fetch Trainee details for each ProgressRecord
                 var trainee = await _http.GetFromJsonAsync<Trainee>($"api/trainees/{record.TraineeId}");
-                if (trainee != null)
+                if (trainee == null)
+                    continue;
+
+                record.Trainee = trainee;
+
+                if (isAdmin || trainee.Username == currentUser)
                 {
-                    record.Trainee = trainee;
+                    filteredRecords.Add(record);
                 }
             }
 
-            ProgressRecords = progressRecords;
+            ProgressRecords = filteredRecords;
         }
     }
 }

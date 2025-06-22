@@ -7,26 +7,39 @@
 
 <h1>Sign In</h1>
 
-<form method="post" class="col-md-4">
-    <div asp-validation-summary="ModelOnly" class="text-danger">
-        @Model.ErrorMessage
-    </div>
+@if (!User.Identity.IsAuthenticated)
+{
+    <form method="post" class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+            @Model.ErrorMessage
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="Username" class="form-label">Username</label>
-        <input asp-for="Username" class="form-control" />
-        <span asp-validation-for="Username" class="text-danger"></span>
-    </div>
+        <div class="mb-3">
+            <label asp-for="Username" class="form-label">Username</label>
+            <input asp-for="Username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label">Password</label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Sign In</button>
-    <a asp-page="/Index" class="btn btn-secondary ms-2">Cancel</a>
-</form>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        <a asp-page="/Index" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+}
+else
+{
+    <div>
+            
+    </div>
+    <div class="alert alert-info col-md-4">
+        You are already signed in as <strong>@User.Identity.Name</strong>.
+        <a asp-page="/Index" class="btn btn-sm btn-primary ms-2">Go to Home</a>
+    </div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

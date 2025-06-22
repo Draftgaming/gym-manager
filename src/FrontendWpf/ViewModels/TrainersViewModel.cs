@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FrontendWpf.ViewModels
+
 {
     public class TrainersViewModel : INotifyPropertyChanged
     {

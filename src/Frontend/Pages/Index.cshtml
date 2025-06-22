@@ -12,7 +12,11 @@
                 Streamline gym subscriptions, assign trainers, design custom training plans,
                 and track each trainee’s progress—all in one place.
             </p>
-            <a asp-page="/Trainees/Create" class="btn btn-primary btn-lg">Get Started</a>
+            @if (User.Identity?.IsAuthenticated == false)
+            {
+                <a asp-page="/Account/SignUp" class="btn btn-primary btn-lg">Get Started</a>
+            }
+            
         </div>
         <div class="col-md-6 text-center">
             <img src="~/images/btoteva-fitness.svg" alt="Gym illustration" class="img-fluid rounded shadow-sm" />

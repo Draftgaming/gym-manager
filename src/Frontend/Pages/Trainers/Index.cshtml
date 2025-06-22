@@ -8,7 +8,12 @@
 <h1 class="mb-4">Trainers</h1>
 
 <p>
-    <a asp-page="Create" class="btn btn-success">Add New Trainee</a>
+    @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator")){
+        <a asp-page="Create" class="btn btn-success">Add New Trainer</a>
+
+    }
+
+
 </p>
 
 <table class="table table-striped">
@@ -16,8 +21,16 @@
         <tr>
             <th>Full Name</th>
             <th>Specialty</th>
-            <th>Number of Trainees</th>
-            <th class="text-end">Actions</th>
+            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+            {
+                <th>Number of Trainees</th>
+                <th class="text-end">Actions</th>
+            }
+            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User") && User.IsInRole("Trainer"))
+            {
+                <th>Number of Trainees</th>   
+            }
+
         </tr>
     </thead>
     <tbody>
@@ -26,11 +39,24 @@
             <tr>
                 <td>@trainer.Name</td>
                 <td>@trainer.Specialty</td>
-                <td>@trainer.Trainees.Count</td>
-                <td class="text-end">
-                    <a asp-page="Edit" asp-route-id="@trainer.TrainerId" class="btn btn-sm btn-primary">Edit</a>
-                    <a asp-page="Delete" asp-route-id="@trainer.TrainerId" class="btn btn-sm btn-danger">Delete</a>
-                </td>
+                
+                @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+                {
+                    //hide the trainee count as a user
+                    <td>@trainer.Trainees.Count</td>
+                    
+                    <td class="text-end">
+                        <a asp-page="Edit" asp-route-id="@trainer.TrainerId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-page="Delete" asp-route-id="@trainer.TrainerId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                    
+                }
+                @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User"))
+                {
+                    //hide the trainee count as a user
+                    <td>@trainer.Trainees.Count</td>
+                }
+                
             </tr>
         }
     </tbody>

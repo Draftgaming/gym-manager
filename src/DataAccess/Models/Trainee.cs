@@ -33,7 +33,9 @@ namespace DataAccess.Models
         [Required, MaxLength(100)]
         public string Password { get; set; } = default!;    // plaintext for demo only!
 
-        [Required, MaxLength(20)]
+        [MaxLength(20)]
         public string Role { get; set; } = "User";
+
+       
     }
 }

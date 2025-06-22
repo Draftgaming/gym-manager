@@ -9,7 +9,10 @@
 <h1>Training Plans</h1>
 
 <p>
-    <a asp-page="Create" class="btn btn-success">Add New Plan</a>
+    @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+    {
+        <a asp-page="Create" class="btn btn-success">Add New Plan</a>
+    }
 </p>
 
 <table class="table table-striped table-hover">
@@ -17,8 +20,15 @@
         <tr>
             <th>Plan Name</th>
             <th>Description</th>
-            <th>Number of Trainees</th>
-            <th class="text-end">Actions</th>
+            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User"))
+            {
+                <th>Number of Trainees</th>
+                
+            }
+            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+            {
+                <th class="text-end">Actions</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -27,11 +37,16 @@
             <tr>
                 <td>@plan.PlanName</td>
                 <td>@plan.Description</td>
-                <td>@plan.Trainees.Count</td>
-                <td class="text-end">
-                    <a asp-page="Edit" asp-route-id="@plan.TrainingPlanId" class="btn btn-sm btn-primary">Edit</a>
-                    <a asp-page="Delete" asp-route-id="@plan.TrainingPlanId" class="btn btn-sm btn-danger">Delete</a>
-                </td>
+                
+                @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+                {
+
+                    <td class="text-end">
+                        <a asp-page="Edit" asp-route-id="@plan.TrainingPlanId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-page="Delete" asp-route-id="@plan.TrainingPlanId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                }
+                
             </tr>
         }
     </tbody>

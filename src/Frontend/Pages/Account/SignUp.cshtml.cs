@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security.Policy;
 using System.Threading.Tasks;
 
 namespace Frontend.Pages.Account
@@ -19,6 +20,10 @@ namespace Frontend.Pages.Account
         private readonly HttpClient _http = httpFactory.CreateClient("BackendAPI");
 
         // Bindable properties match Trainee fields
+
+        [BindProperty, Required]
+        public int TraineeId { get; set; } = default(int);
+
         [BindProperty, Required]
         public string FullName { get; set; } = "";
 
@@ -57,13 +62,13 @@ namespace Frontend.Pages.Account
         {
             if (!ModelState.IsValid)
             {
-                await OnGetAsync();
+                await OnGetAsync(); // Re-load dropdowns
                 return Page();
             }
 
-            // Build the Trainee DTO
             var newTrainee = new Trainee
             {
+                TraineeId = TraineeId,
                 FullName = FullName,
                 DateJoined = DateJoined,
                 TrainerId = TrainerId,
@@ -73,17 +78,26 @@ namespace Frontend.Pages.Account
                 Role = Role
             };
 
-            // Send to backend
-            var resp = await _http.PostAsJsonAsync("api/trainees", newTrainee);
-
-            if (!resp.IsSuccessStatusCode)
+            try
             {
-                ModelState.AddModelError(string.Empty, "Error creating account.");
+                var resp = await _http.PostAsJsonAsync("api/trainees", newTrainee);
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    ModelState.AddModelError(string.Empty, "Error creating account.");
+                    await OnGetAsync(); // Load dropdowns again
+                    return Page();
+                }
+
+                return RedirectToPage("/Account/SignIn");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Unexpected error: {ex.Message}");
                 await OnGetAsync();
                 return Page();
             }
-
-            return RedirectToPage("/Account/Login");
         }
+
     }
 }
