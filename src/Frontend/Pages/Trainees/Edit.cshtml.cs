@@ -19,31 +19,22 @@ namespace Frontend.Pages.Trainees
         public Trainee Trainee { get; set; } = new Trainee();
 
         public SelectList TrainerOptions { get; set; } = default!;
-        public SelectList TrainingPlanOptions { get; set; } = default!;
+        public SelectList PlanOptions { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            // 1) Load the trainee
-            Trainee = await _http.GetFromJsonAsync<Trainee>($"api/trainees/{id.Value}") ?? default;
+            var trainee = await _http.GetFromJsonAsync<Trainee>($"api/trainees/{id.Value}");
+            if (trainee == null) return NotFound();
 
-            if (Trainee == default)
-            {
-                return NotFound("Trainee not found.");
-            }
+            Trainee = trainee;
 
-            // 2) Load dropdowns
             var trainers = await _http.GetFromJsonAsync<List<Trainer>>("api/trainers") ?? [];
-
             TrainerOptions = new SelectList(trainers, "TrainerId", "Name", Trainee.TrainerId);
 
             var plans = await _http.GetFromJsonAsync<List<TrainingPlan>>("api/trainingplans") ?? [];
-
-            TrainingPlanOptions = new SelectList(plans, "TrainingPlanId", "PlanName", Trainee.TrainingPlanId);
+            PlanOptions = new SelectList(plans, "TrainingPlanId", "PlanName", Trainee.TrainingPlanId);
 
             return Page();
         }
@@ -52,17 +43,19 @@ namespace Frontend.Pages.Trainees
         {
             if (!ModelState.IsValid)
             {
-                // Re-populate dropdowns and return
-                await OnGetAsync(Trainee.TraineeId);
+                var trainers = await _http.GetFromJsonAsync<List<Trainer>>("api/trainers") ?? [];
+                TrainerOptions = new SelectList(trainers, "TrainerId", "Name", Trainee.TrainerId);
+
+                var plans = await _http.GetFromJsonAsync<List<TrainingPlan>>("api/trainingplans") ?? [];
+                PlanOptions = new SelectList(plans, "TrainingPlanId", "PlanName", Trainee.TrainingPlanId);
+
                 return Page();
             }
 
-            // Send a PUT to update
             var resp = await _http.PutAsJsonAsync($"api/trainees/{Trainee.TraineeId}", Trainee);
             if (!resp.IsSuccessStatusCode)
             {
                 ModelState.AddModelError(string.Empty, "API error updating trainee.");
-                await OnGetAsync(Trainee.TraineeId);
                 return Page();
             }
 

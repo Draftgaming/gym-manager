@@ -37,7 +37,7 @@
             <tr>
                 <td>@plan.PlanName</td>
                 <td>@plan.Description</td>
-                
+                <th>@plan.Trainees.Count</th>
                 @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
                 {
 

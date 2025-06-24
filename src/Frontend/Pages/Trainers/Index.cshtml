@@ -26,7 +26,7 @@
                 <th>Number of Trainees</th>
                 <th class="text-end">Actions</th>
             }
-            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User") && User.IsInRole("Trainer"))
+            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User"))
             {
                 <th>Number of Trainees</th>   
             }
@@ -39,6 +39,7 @@
             <tr>
                 <td>@trainer.Name</td>
                 <td>@trainer.Specialty</td>
+                
                 
                 @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
                 {

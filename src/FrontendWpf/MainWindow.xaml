@@ -6,7 +6,25 @@
         xmlns:local="clr-namespace:FrontendWpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel Margin="10">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10">
+            <Button Content="Load" Command="{Binding LoadCommand}" Width="75" Margin="0,0,5,0"/>
+            <Button Content="Add" Command="{Binding AddCommand}" Width="75" Margin="0,0,5,0" Click="Button_Click"/>
+            <Button Content="Update" Command="{Binding UpdateCommand}" Width="75" Margin="0,0,5,0"/>
+            <Button Content="Delete" Command="{Binding DeleteCommand}" Width="75"/>
+        </StackPanel>
 
-    </Grid>
+        <DataGrid ItemsSource="{Binding Trainers}"
+                  SelectedItem="{Binding SelectedTrainer, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding TrainerId}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Specialty" Binding="{Binding Specialty}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </Window>
+
